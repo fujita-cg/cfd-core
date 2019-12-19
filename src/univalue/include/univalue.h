@@ -35,34 +35,16 @@ class UNIVALUE_EXPORT UniValue {
 public:
     enum VType { VNULL, VOBJ, VARR, VSTR, VNUM, VBOOL, };
 
-    UniValue() { typ = VNULL; }
-    UniValue(UniValue::VType initialType, const std::string& initialStr = "") {
-        typ = initialType;
-        val = initialStr;
-    }
-    UniValue(uint64_t val_) {
-        setInt(val_);
-    }
-    UniValue(int64_t val_) {
-        setInt(val_);
-    }
-    UniValue(bool val_) {
-        setBool(val_);
-    }
-    UniValue(int val_) {
-        setInt(val_);
-    }
-    UniValue(double val_) {
-        setFloat(val_);
-    }
-    UniValue(const std::string& val_) {
-        setStr(val_);
-    }
-    UniValue(const char *val_) {
-        std::string s(val_);
-        setStr(s);
-    }
-    ~UniValue() {}
+    UniValue();
+    UniValue(UniValue::VType initialType, const std::string& initialStr = "");
+    UniValue(uint64_t val_);
+    UniValue(int64_t val_);
+    UniValue(bool val_);
+    UniValue(int val_);
+    UniValue(double val_);
+    UniValue(const std::string& val_);
+    UniValue(const char *val_);
+    ~UniValue();
 
     void clear();
 
@@ -71,101 +53,60 @@ public:
     bool setNumStr(const std::string& val);
     bool setInt(uint64_t val);
     bool setInt(int64_t val);
-    bool setInt(int val_) { return setInt((int64_t)val_); }
+    bool setInt(int val_);
     bool setFloat(double val);
     bool setStr(const std::string& val);
     bool setArray();
     bool setObject();
 
-    enum VType getType() const { return typ; }
-    const std::string& getValStr() const { return val; }
-    bool empty() const { return (values.size() == 0); }
+    enum VType getType() const;
+    const std::string& getValStr() const;
+    bool empty() const;
 
-    size_t size() const { return values.size(); }
+    size_t size() const;
 
-    bool getBool() const { return isTrue(); }
+    bool getBool() const;
     void getObjMap(std::map<std::string,UniValue>& kv) const;
     bool checkObject(const std::map<std::string,UniValue::VType>& memberTypes) const;
     const UniValue& operator[](const std::string& key) const;
     const UniValue& operator[](size_t index) const;
-    bool exists(const std::string& key) const { size_t i; return findKey(key, i); }
+    bool exists(const std::string& key) const;
 
-    bool isNull() const { return (typ == VNULL); }
-    bool isTrue() const { return (typ == VBOOL) && (val == "1"); }
-    bool isFalse() const { return (typ == VBOOL) && (val != "1"); }
-    bool isBool() const { return (typ == VBOOL); }
-    bool isStr() const { return (typ == VSTR); }
-    bool isNum() const { return (typ == VNUM); }
-    bool isArray() const { return (typ == VARR); }
-    bool isObject() const { return (typ == VOBJ); }
+    bool isNull() const;
+    bool isTrue() const;
+    bool isFalse() const;
+    bool isBool() const;
+    bool isStr() const;
+    bool isNum() const;
+    bool isArray() const;
+    bool isObject() const;
 
     bool push_back(const UniValue& val);
-    bool push_back(const std::string& val_) {
-        UniValue tmpVal(VSTR, val_);
-        return push_back(tmpVal);
-    }
-    bool push_back(const char *val_) {
-        std::string s(val_);
-        return push_back(s);
-    }
-    bool push_back(uint64_t val_) {
-        UniValue tmpVal(val_);
-        return push_back(tmpVal);
-    }
-    bool push_back(int64_t val_) {
-        UniValue tmpVal(val_);
-        return push_back(tmpVal);
-    }
-    bool push_back(int val_) {
-        UniValue tmpVal(val_);
-        return push_back(tmpVal);
-    }
-    bool push_back(double val_) {
-        UniValue tmpVal(val_);
-        return push_back(tmpVal);
-    }
+    bool push_back(const std::string& val_);
+    bool push_back(const char *val_);
+    bool push_back(uint64_t val_);
+    bool push_back(int64_t val_);
+    bool push_back(int val_);
+    bool push_back(double val_);
     bool push_backV(const std::vector<UniValue>& vec);
 
     void __pushKV(const std::string& key, const UniValue& val);
     bool pushKV(const std::string& key, const UniValue& val);
-    bool pushKV(const std::string& key, const std::string& val_) {
-        UniValue tmpVal(VSTR, val_);
-        return pushKV(key, tmpVal);
-    }
-    bool pushKV(const std::string& key, const char *val_) {
-        std::string _val(val_);
-        return pushKV(key, _val);
-    }
-    bool pushKV(const std::string& key, int64_t val_) {
-        UniValue tmpVal(val_);
-        return pushKV(key, tmpVal);
-    }
-    bool pushKV(const std::string& key, uint64_t val_) {
-        UniValue tmpVal(val_);
-        return pushKV(key, tmpVal);
-    }
-    bool pushKV(const std::string& key, bool val_) {
-        UniValue tmpVal((bool)val_);
-        return pushKV(key, tmpVal);
-    }
-    bool pushKV(const std::string& key, int val_) {
-        UniValue tmpVal((int64_t)val_);
-        return pushKV(key, tmpVal);
-    }
-    bool pushKV(const std::string& key, double val_) {
-        UniValue tmpVal(val_);
-        return pushKV(key, tmpVal);
-    }
+    bool pushKV(const std::string& key, const std::string& val_);
+    bool pushKV(const std::string& key, const char *val_);
+    bool pushKV(const std::string& key, int64_t val_);
+    bool pushKV(const std::string& key, uint64_t val_);
+    bool pushKV(const std::string& key, bool val_);
+    bool pushKV(const std::string& key, int val_);
+    bool pushKV(const std::string& key, double val_);
     bool pushKVs(const UniValue& obj);
 
     std::string write(unsigned int prettyIndent = 0,
                       unsigned int indentLevel = 0) const;
 
     bool read(const char *raw, size_t len);
-    bool read(const char *raw) { return read(raw, strlen(raw)); }
-    bool read(const std::string& rawStr) {
-        return read(rawStr.data(), rawStr.size());
-    }
+    bool read(const char *raw);
+    bool read(const std::string& rawStr);
 
 private:
     UniValue::VType typ;
@@ -190,13 +131,12 @@ public:
     const UniValue& get_obj() const;
     const UniValue& get_array() const;
 
-    enum VType type() const { return getType(); }
-    bool push_back(std::pair<std::string,UniValue> pear) {
-        return pushKV(pear.first, pear.second);
-    }
+    enum VType type() const;
+    bool push_back(std::pair<std::string,UniValue> pear);
     friend const UniValue& find_value( const UniValue& obj, const std::string& name);
 };
 
+#if 0
 //
 // The following were added for compatibility with json_spirit.
 // Most duplicate other methods, and should be removed.
@@ -260,6 +200,7 @@ static inline std::pair<std::string,UniValue> Pair(std::string key, const UniVal
 {
     return std::make_pair(key, uVal);
 }
+#endif
 
 enum jtokentype {
     JTOK_ERR        = -1,
@@ -281,6 +222,8 @@ UNIVALUE_EXPORT extern enum jtokentype getJsonToken(std::string& tokenVal,
                                     unsigned int& consumed, const char *raw, const char *end);
 UNIVALUE_EXPORT extern const char *uvTypeName(UniValue::VType t);
 
+#if 0
+// move univalue_internal.h
 static inline bool jsonTokenIsValue(enum jtokentype jtt)
 {
     switch (jtt) {
@@ -313,6 +256,7 @@ static inline bool json_isspace(int ch)
 
     // not reached
 }
+#endif
 
 UNIVALUE_EXPORT extern const UniValue NullUniValue;
 

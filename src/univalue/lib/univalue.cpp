@@ -12,6 +12,116 @@
 
 const UniValue NullUniValue;
 
+UniValue::UniValue() { typ = VNULL; }
+UniValue::UniValue(UniValue::VType initialType, const std::string& initialStr) {
+    typ = initialType;
+    val = initialStr;
+}
+UniValue::UniValue(uint64_t val_) {
+    setInt(val_);
+}
+UniValue::UniValue(int64_t val_) {
+    setInt(val_);
+}
+UniValue::UniValue(bool val_) {
+    setBool(val_);
+}
+UniValue::UniValue(int val_) {
+    setInt(val_);
+}
+UniValue::UniValue(double val_) {
+    setFloat(val_);
+}
+UniValue::UniValue(const std::string& val_) {
+    setStr(val_);
+}
+UniValue::UniValue(const char *val_) {
+    std::string s(val_);
+    setStr(s);
+}
+UniValue::~UniValue() {}
+
+bool UniValue::setInt(int val_) { return setInt((int64_t)val_); }
+
+enum UniValue::VType UniValue::getType() const { return typ; }
+const std::string& UniValue::getValStr() const { return val; }
+bool UniValue::empty() const { return (values.size() == 0); }
+
+size_t UniValue::size() const { return values.size(); }
+
+bool UniValue::getBool() const { return isTrue(); }
+
+bool UniValue::exists(const std::string& key) const { size_t i; return findKey(key, i); }
+
+bool UniValue::isNull() const { return (typ == VNULL); }
+bool UniValue::isTrue() const { return (typ == VBOOL) && (val == "1"); }
+bool UniValue::isFalse() const { return (typ == VBOOL) && (val != "1"); }
+bool UniValue::isBool() const { return (typ == VBOOL); }
+bool UniValue::isStr() const { return (typ == VSTR); }
+bool UniValue::isNum() const { return (typ == VNUM); }
+bool UniValue::isArray() const { return (typ == VARR); }
+bool UniValue::isObject() const { return (typ == VOBJ); }
+bool UniValue::push_back(const std::string& val_) {
+    UniValue tmpVal(VSTR, val_);
+    return push_back(tmpVal);
+}
+bool UniValue::push_back(const char *val_) {
+    std::string s(val_);
+    return push_back(s);
+}
+bool UniValue::push_back(uint64_t val_) {
+    UniValue tmpVal(val_);
+    return push_back(tmpVal);
+}
+bool UniValue::push_back(int64_t val_) {
+    UniValue tmpVal(val_);
+    return push_back(tmpVal);
+}
+bool UniValue::push_back(int val_) {
+    UniValue tmpVal(val_);
+    return push_back(tmpVal);
+}
+bool UniValue::push_back(double val_) {
+    UniValue tmpVal(val_);
+    return push_back(tmpVal);
+}
+bool UniValue::pushKV(const std::string& key, const std::string& val_) {
+    UniValue tmpVal(VSTR, val_);
+    return pushKV(key, tmpVal);
+}
+bool UniValue::pushKV(const std::string& key, const char *val_) {
+    std::string _val(val_);
+    return pushKV(key, _val);
+}
+bool UniValue::pushKV(const std::string& key, int64_t val_) {
+    UniValue tmpVal(val_);
+    return pushKV(key, tmpVal);
+}
+bool UniValue::pushKV(const std::string& key, uint64_t val_) {
+    UniValue tmpVal(val_);
+    return pushKV(key, tmpVal);
+}
+bool UniValue::pushKV(const std::string& key, bool val_) {
+    UniValue tmpVal((bool)val_);
+    return pushKV(key, tmpVal);
+}
+bool UniValue::pushKV(const std::string& key, int val_) {
+    UniValue tmpVal((int64_t)val_);
+    return pushKV(key, tmpVal);
+}
+bool UniValue::pushKV(const std::string& key, double val_) {
+    UniValue tmpVal(val_);
+    return pushKV(key, tmpVal);
+}
+bool UniValue::read(const char *raw) { return read(raw, strlen(raw)); }
+bool UniValue::read(const std::string& rawStr) {
+    return read(rawStr.data(), rawStr.size());
+}
+enum UniValue::VType UniValue::type() const { return getType(); }
+bool UniValue::push_back(std::pair<std::string,UniValue> pear) {
+    return pushKV(pear.first, pear.second);
+}
+
 void UniValue::clear()
 {
     typ = VNULL;

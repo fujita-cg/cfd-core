@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include "univalue.h"
 #include "univalue_utffilter.h"
+#include "univalue_internal.h"
 
 static bool json_isdigit(int ch)
 {

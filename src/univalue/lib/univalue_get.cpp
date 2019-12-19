@@ -13,6 +13,7 @@
 #include <string>
 
 #include "univalue.h"
+#include "univalue_internal.h"
 
 namespace
 {
