@@ -1,7 +1,7 @@
 branches:
   only:
     - master
-    - /v\d+\.\d+[a-z]/
+    - test-asset
 language: cpp
 sudo: required
 dist: bionic
