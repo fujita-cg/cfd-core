@@ -26,7 +26,7 @@ addons:
   homebrew:
     packages:
       - cmake
-    update: true
+    update: env(PRIOR_VERSION) (xcode8) AND
 
 before_install:
   - cmake --version
@@ -49,7 +49,7 @@ after_success:
   - make install DESTDIR=../dist
   - cd ../dist
   - ls -l usr/local/lib
-  - zip -r cfdjs-${$TRAVIS_OS_NAME}-static-${TRAVIS_CPU_ARCH}-${TRAVIS_OSX_IMAGE}.zip
+  - zip -r cfdjs-$TRAVIS_OS_NAME-static-$TRAVIS_CPU_ARCH-$TRAVIS_OSX_IMAGE.zip
 
 before_deploy:
   # Set up git user name and tag this commit
