@@ -28,6 +28,7 @@ addons:
       - cmake
 
 before_install:
+  - cmake --version
 
 install:
 
@@ -58,7 +59,7 @@ deploy:
   provider: releases
   api_key:
     secure: "bMWl1Ma/XISOuLLOhU5aPBz74qT0ArcmR3TLOVW+6MXpFIDXgh45QfViX6jnVZEQ+lgoBE/WMRG9YnRhhvZcOqOQz7MER97Sdmh88Qy1gt7KcA+MSN95foubpbE68QYgTb90VTZ42cEXDKtG8lxMvTdhvBp/+URrmrgtRG15qQPq4NhkiaoqAb8+FS3xVYBm0+vKGLxfrMTmH05t5GZbZ/2Jn4VN8Me1c9l7j+nAYveEuO7YkWu/Ac+8ro8FGs2hDQiQLCdFhqNmwltWw1XnBBwzEnyE9dboXil1WNFcws0hm1CzXEISGcrihy8F10ohWr7QorL4yxGXi1oUlwrsRcz32HH/QmablTyu/ZZWnAw8nikviohGLl0uo+RvSLrQ1LMCFglA0SJJ9mWMdYt6coyaOv+hqDUdTb3nlQHLLYyEbqitXRVebCS4nPqVxW/CmbH9OxJ3EJD99zBriEOlTcWRcdAy4XwjshLNRT2/NRl5b95osNJHdPM79+c+IjZayFapROJUHpvcmj1+ytbIwFoDllF7i7POCmjRwEoz40UQoLXn2LLYvQXom/bcPhZ7+Z2xbi3dhVRpjpMOahyNcFG8Z31Xt4G57VH6QS4x4YBXRju8zu0YrSFBX21JTvSiapp2QwLP6iX4+xzq5HWXieJjVGJpN56pOr85iX3LiVI="
-  file: cfdjs-${$TRAVIS_OS_NAME}-static-${TRAVIS_CPU_ARCH}-${TRAVIS_OSX_IMAGE}.zip
+  file: cfdjs-$TRAVIS_OS_NAME-static-$TRAVIS_CPU_ARCH-$TRAVIS_OSX_IMAGE.zip
   draft: false
   on:
     tags: true
