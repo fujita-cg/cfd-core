@@ -22,7 +22,7 @@ addons:
   homebrew:
     packages:
       - cmake
-    update: env(xcode8) AND
+    update: env(TRAVIS_OSX_IMAGE) == "xcode8"
 
 before_install:
   - cmake --version
@@ -49,6 +49,8 @@ after_success:
   # Set up git user name and tag this commit
   - git config --local user.name "fujita-cg"
   - git config --local user.email "fujita@cryptogarage.co.jp"
+  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
+  - echo "${TRAVIS_TAG}"
   # - export TRAVIS_TAG=v${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
   - export TRAVIS_TAG=test-asset
   - git tag $TRAVIS_TAG
@@ -57,7 +59,7 @@ after_success:
 deploy:
   provider: releases
   api_key:
-    secure: "bMWl1Ma/XISOuLLOhU5aPBz74qT0ArcmR3TLOVW+6MXpFIDXgh45QfViX6jnVZEQ+lgoBE/WMRG9YnRhhvZcOqOQz7MER97Sdmh88Qy1gt7KcA+MSN95foubpbE68QYgTb90VTZ42cEXDKtG8lxMvTdhvBp/+URrmrgtRG15qQPq4NhkiaoqAb8+FS3xVYBm0+vKGLxfrMTmH05t5GZbZ/2Jn4VN8Me1c9l7j+nAYveEuO7YkWu/Ac+8ro8FGs2hDQiQLCdFhqNmwltWw1XnBBwzEnyE9dboXil1WNFcws0hm1CzXEISGcrihy8F10ohWr7QorL4yxGXi1oUlwrsRcz32HH/QmablTyu/ZZWnAw8nikviohGLl0uo+RvSLrQ1LMCFglA0SJJ9mWMdYt6coyaOv+hqDUdTb3nlQHLLYyEbqitXRVebCS4nPqVxW/CmbH9OxJ3EJD99zBriEOlTcWRcdAy4XwjshLNRT2/NRl5b95osNJHdPM79+c+IjZayFapROJUHpvcmj1+ytbIwFoDllF7i7POCmjRwEoz40UQoLXn2LLYvQXom/bcPhZ7+Z2xbi3dhVRpjpMOahyNcFG8Z31Xt4G57VH6QS4x4YBXRju8zu0YrSFBX21JTvSiapp2QwLP6iX4+xzq5HWXieJjVGJpN56pOr85iX3LiVI="
+    secure: "dnCx6+A52pPiQifYVxcMhQJ5DdYIl8O5mRCrACoarxXJN4g5UOJYuP9kPARrD2GUi42fvIO7mMeHoEcOpffYoIg61Deo+wv1BMcRP4lqS2qee1BpKut5V1nZajCD3vxrBCjRYnOSYHx6I4rr20n40M2kV9bbYWCXPl7F+QWeDQlBKB7NJ4DTEVHhPe/WgCV0SS9NKlgCNDP3Ejh4/tRx/IsF/qL8E1u73Geh97vOcp3Aw7s2rbWoR5LXoEv79DswrXxqGfOkJpy+/7I5SjO723R9niY/rhDhbNfrIitVvPh5UCH4N27pbE46cmdeEfL3etoVU20PdDSg47hQafCzBkmyriWmwFaerLHuIDSR/icoZ0YJo9juZGv9k52MNnP8H6mm4/3xu6fXXZ73u6mLZLQTm5KNOrtM3kqWNsZiazkVTYN9WBsfQqQdGxLi2+Ge74soEn7Se+0kBqZWPK2uxBfW/Eu2zSEI8GzHcL2YttAVXtd5yVDtrAMN6InvdGkskPnPeMsgW1O5mNUfnoKQVsN8tlu6ONd2f+aA13aoy1SOTk/jxpIqGzSxxArVpP9UbIhOEGPOtcp43b8K+OYmZTT0qPorL/tnBMc1iYSNODtc+IvJeKhRcFJyJgDC3nM9bMpkOXnrlYoEz8B4lAbP3SRSfnW9dd6ERT+MQhBwFsE="
   file: cfdjs-asset.zip
   draft: false
   on:
