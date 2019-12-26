@@ -1,3 +1,7 @@
+branches:
+  only:
+    - master
+    - test-asset
 language: cpp
 sudo: required
 dist: bionic
@@ -54,6 +58,7 @@ before_deploy:
   # - export TRAVIS_TAG=v${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
   - export TRAVIS_TAG=test-asset
   - git tag $TRAVIS_TAG
+  - git push origin ${TRAVIS_TAG}
 deploy:
   provider: releases
   api_key:
