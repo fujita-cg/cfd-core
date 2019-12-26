@@ -63,3 +63,4 @@ deploy:
   on:
     tags: true
     repo: fujita-cg/cfd-core
+  skip_cleanup: true
