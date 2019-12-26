@@ -22,7 +22,7 @@ addons:
   homebrew:
     packages:
       - cmake
-    update: env(PRIOR_VERSION) (xcode8) AND
+    update: env(xcode8) AND
 
 before_install:
   - cmake --version
@@ -46,8 +46,6 @@ after_success:
   - cd ../dist
   - ls -l usr/local/lib
   - zip -r cfdjs-asset.zip usr
-
-before_deploy:
   # Set up git user name and tag this commit
   - git config --local user.name "fujita-cg"
   - git config --local user.email "fujita@cryptogarage.co.jp"
@@ -55,6 +53,7 @@ before_deploy:
   - export TRAVIS_TAG=test-asset
   - git tag $TRAVIS_TAG
   - git push origin ${TRAVIS_TAG}
+
 deploy:
   provider: releases
   api_key:
