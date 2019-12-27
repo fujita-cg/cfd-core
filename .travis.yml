@@ -1,3 +1,6 @@
+branches:
+  only:
+    - /^v(.*)?/
 language: cpp
 sudo: required
 dist: bionic
@@ -9,23 +12,24 @@ matrix:
     #   compiler: clang
     #   osx_image: xcode8
     #   env: BUILD_TYPE="Release"
-    - os: osx
-      compiler: clang
-      osx_image: xcode9.4
-      env: BUILD_TYPE="Release"
     # - os: osx
     #   compiler: clang
-    #   osx_image: xcode11.3
+    #   osx_image: xcode9.4
     #   env: BUILD_TYPE="Release"
+    - os: osx
+      compiler: clang
+      osx_image: xcode11.3
+      env: BUILD_TYPE="Release"
 
 addons:
   homebrew:
     packages:
       - cmake
-    update: env(TRAVIS_OSX_IMAGE) == "xcode8"
+    update: true
 
 before_install:
   - cmake --version
+  - echo "${TRAVIS_OS_NAME} ${TRAVIS_OSX_IMAGE} ${TRAVIS_CPU_ARCH} ${TRAVIS_TAG}"
 
 install:
 
@@ -35,7 +39,7 @@ before_script:
   - mkdir dist
   - mkdir build
   - cmake -S . -B build
-  - cmake -DCMAKE_BUILD_TYPE="$BUILD_TYPE" -DENABLE_SHARED=off -DENABLE_TESTS=off -DENABLE_JS_WRAPPER=off -DENABLE_CAPI=on --build build
+  - cmake -DCMAKE_BUILD_TYPE="$BUILD_TYPE" -DENABLE_SHARED=off -DENABLE_TESTS=off --build build
 
 script:
   - cmake --build build
@@ -45,24 +49,14 @@ after_success:
   - make install DESTDIR=../dist
   - cd ../dist
   - ls -l usr/local/lib
-  - zip -r cfdjs-asset.zip usr
-  # Set up git user name and tag this commit
-  - git config --local user.name "fujita-cg"
-  - git config --local user.email "fujita@cryptogarage.co.jp"
-  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
-  - echo "${TRAVIS_TAG}"
-  # - export TRAVIS_TAG=v${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
-  - export TRAVIS_TAG=test-asset
-  - git tag $TRAVIS_TAG
-  - git push origin ${TRAVIS_TAG}
+  - zip -r "cfdcore-${TRAVIS_OS_NAME}-static-${TRAVIS_CPU_ARCH}-${TRAVIS_OSX_IMAGE}.zip" usr
 
 deploy:
   provider: releases
   api_key:
     secure: "dnCx6+A52pPiQifYVxcMhQJ5DdYIl8O5mRCrACoarxXJN4g5UOJYuP9kPARrD2GUi42fvIO7mMeHoEcOpffYoIg61Deo+wv1BMcRP4lqS2qee1BpKut5V1nZajCD3vxrBCjRYnOSYHx6I4rr20n40M2kV9bbYWCXPl7F+QWeDQlBKB7NJ4DTEVHhPe/WgCV0SS9NKlgCNDP3Ejh4/tRx/IsF/qL8E1u73Geh97vOcp3Aw7s2rbWoR5LXoEv79DswrXxqGfOkJpy+/7I5SjO723R9niY/rhDhbNfrIitVvPh5UCH4N27pbE46cmdeEfL3etoVU20PdDSg47hQafCzBkmyriWmwFaerLHuIDSR/icoZ0YJo9juZGv9k52MNnP8H6mm4/3xu6fXXZ73u6mLZLQTm5KNOrtM3kqWNsZiazkVTYN9WBsfQqQdGxLi2+Ge74soEn7Se+0kBqZWPK2uxBfW/Eu2zSEI8GzHcL2YttAVXtd5yVDtrAMN6InvdGkskPnPeMsgW1O5mNUfnoKQVsN8tlu6ONd2f+aA13aoy1SOTk/jxpIqGzSxxArVpP9UbIhOEGPOtcp43b8K+OYmZTT0qPorL/tnBMc1iYSNODtc+IvJeKhRcFJyJgDC3nM9bMpkOXnrlYoEz8B4lAbP3SRSfnW9dd6ERT+MQhBwFsE="
-  file: cfdjs-asset.zip
+  file: "cfdcore-${TRAVIS_OS_NAME}-static-${TRAVIS_CPU_ARCH}-${TRAVIS_OSX_IMAGE}.zip"
   draft: false
   on:
     tags: true
-    repo: fujita-cg/cfd-core
   skip_cleanup: true
