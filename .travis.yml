@@ -56,8 +56,7 @@ after_success:
 
 deploy:
   provider: releases
-  api_key:
-    secure: ${GITHUB_SECRET_API_KEY}
+  api_key: ${GITHUB_API_KEY}
   file: "cfdcore-api-${TRAVIS_TAG}-${TRAVIS_OS_NAME}-${TRAVIS_OSX_IMAGE}-x86_64.zip"
   draft: false
   on:
