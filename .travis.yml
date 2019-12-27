@@ -49,13 +49,13 @@ after_success:
   - make install DESTDIR=../dist
   - cd ../dist
   - ls -l usr/local/lib
-  - zip -r "cfdcore-${TRAVIS_OS_NAME}-static-${TRAVIS_CPU_ARCH}-${TRAVIS_OSX_IMAGE}.zip" usr
+  - zip -r "cfdcore-api-${TRAVIS_TAG}-${TRAVIS_OS_NAME}-${TRAVIS_OSX_IMAGE}-x86_64.zip" usr
 
 deploy:
   provider: releases
   api_key:
     secure: "dnCx6+A52pPiQifYVxcMhQJ5DdYIl8O5mRCrACoarxXJN4g5UOJYuP9kPARrD2GUi42fvIO7mMeHoEcOpffYoIg61Deo+wv1BMcRP4lqS2qee1BpKut5V1nZajCD3vxrBCjRYnOSYHx6I4rr20n40M2kV9bbYWCXPl7F+QWeDQlBKB7NJ4DTEVHhPe/WgCV0SS9NKlgCNDP3Ejh4/tRx/IsF/qL8E1u73Geh97vOcp3Aw7s2rbWoR5LXoEv79DswrXxqGfOkJpy+/7I5SjO723R9niY/rhDhbNfrIitVvPh5UCH4N27pbE46cmdeEfL3etoVU20PdDSg47hQafCzBkmyriWmwFaerLHuIDSR/icoZ0YJo9juZGv9k52MNnP8H6mm4/3xu6fXXZ73u6mLZLQTm5KNOrtM3kqWNsZiazkVTYN9WBsfQqQdGxLi2+Ge74soEn7Se+0kBqZWPK2uxBfW/Eu2zSEI8GzHcL2YttAVXtd5yVDtrAMN6InvdGkskPnPeMsgW1O5mNUfnoKQVsN8tlu6ONd2f+aA13aoy1SOTk/jxpIqGzSxxArVpP9UbIhOEGPOtcp43b8K+OYmZTT0qPorL/tnBMc1iYSNODtc+IvJeKhRcFJyJgDC3nM9bMpkOXnrlYoEz8B4lAbP3SRSfnW9dd6ERT+MQhBwFsE="
-  file: "cfdcore-${TRAVIS_OS_NAME}-static-${TRAVIS_CPU_ARCH}-${TRAVIS_OSX_IMAGE}.zip"
+  file: "cfdcore-api-${TRAVIS_TAG}-${TRAVIS_OS_NAME}-${TRAVIS_OSX_IMAGE}-x86_64.zip"
   draft: false
   on:
     tags: true
