@@ -20,6 +20,9 @@ matrix:
       compiler: clang
       osx_image: xcode11.3
       env: BUILD_TYPE="Release"
+env:
+  global:
+    - ASSET_FILE_NAME="cfdcore-api-${TRAVIS_TAG}-${TRAVIS_OS_NAME}-${TRAVIS_OSX_IMAGE}-x86_64"
 
 addons:
   homebrew:
@@ -49,12 +52,13 @@ after_success:
   - make install DESTDIR=../dist
   - cd ../dist
   - ls -l usr/local/lib
-  - zip -r "cfdcore-api-${TRAVIS_TAG}-${TRAVIS_OS_NAME}-${TRAVIS_OSX_IMAGE}-x86_64.zip" usr
+  - zip -r "${ASSET_FILE_NAME}.zip" usr
 
 deploy:
   provider: releases
   api_key: ${GITHUB_API_KEY}
-  file: "cfdcore-api-${TRAVIS_TAG}-${TRAVIS_OS_NAME}-${TRAVIS_OSX_IMAGE}-x86_64.zip"
+  file:
+    - "${ASSET_FILE_NAME}.zip"
   draft: false
   on:
     tags: true
