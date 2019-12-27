@@ -1,6 +1,6 @@
 branches:
   only:
-    - /^v(.*)?/
+    - /^v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
 language: cpp
 sudo: required
 dist: bionic
@@ -20,6 +20,9 @@ matrix:
       compiler: clang
       osx_image: xcode11.3
       env: BUILD_TYPE="Release"
+env:
+  global:
+    - TRAVIS_SECURE_ENV_VARS=true
 
 addons:
   homebrew:
@@ -29,7 +32,7 @@ addons:
 
 before_install:
   - cmake --version
-  - echo "${TRAVIS_OS_NAME} ${TRAVIS_OSX_IMAGE} ${TRAVIS_CPU_ARCH} ${TRAVIS_TAG}"
+  - echo "${TRAVIS_OS_NAME} ${TRAVIS_OSX_IMAGE} ${TRAVIS_CPU_ARCH} ${TRAVIS_TAG} ${GITHUB_SECRET_API_KEY}"
 
 install:
 
